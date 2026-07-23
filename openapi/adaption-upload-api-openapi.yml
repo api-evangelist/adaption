@@ -1,0 +1,213 @@
+openapi: 3.1.0
+info:
+  title: Adaption Adaptive Data Datasets Upload API
+  version: 0.4.0
+  x-adaption-generated: '2026-07-17'
+  x-adaption-method: derived
+  x-adaption-source: Derived faithfully from the official first-party Python SDK `adaption` v0.4.0 (PyPI; generated with Stainless from Adaption's OpenAPI spec) — api.md endpoint map + src/adaption/types/* request/response models and src/adaption/_client.py (base URL + auth). Adaption does not publish the source OpenAPI at a public URL; this is a faithful reconstruction of the documented surface, not a fabrication.
+  description: The Adaptive Data API lets you ingest, adapt, evaluate, and export model-ready training datasets. Upload a dataset (direct file, HuggingFace, or Kaggle), configure column roles and augmentation recipes, run the adaptation pipeline, read the quality evaluation, download the adapted dataset, and publish it back to HuggingFace or Kaggle.
+  contact:
+    name: Adaption Labs
+    email: info@adaptionlabs.ai
+    url: https://docs.adaptionlabs.ai/
+  termsOfService: https://adaptionlabs.ai/terms-of-service
+servers:
+- url: https://api.prod.adaptionlabs.ai
+  description: Production
+security:
+- bearerAuth: []
+tags:
+- name: Upload
+  description: Pre-signed direct-to-S3 upload lifecycle for file-sourced datasets.
+paths:
+  /api/v1/datasets/upload/initiate:
+    post:
+      operationId: initiateUpload
+      tags:
+      - Upload
+      summary: Initiate a pre-signed file upload
+      description: Returns a pre-signed S3 URL to which the file is uploaded directly via HTTP PUT.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - file_format
+              - name
+              properties:
+                file_format:
+                  type: string
+                  enum:
+                  - csv
+                  - json
+                  - jsonl
+                  - parquet
+                  description: Format of the file being uploaded
+                name:
+                  type: string
+                  description: Human-readable name for the dataset
+      responses:
+        '200':
+          description: Pre-signed upload URL
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - upload_url
+                properties:
+                  upload_url:
+                    type: string
+                    description: Pre-signed S3 URL — upload the file directly to this URL via HTTP PUT
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /api/v1/datasets/upload/complete:
+    post:
+      operationId: completeUpload
+      tags:
+      - Upload
+      summary: Complete an upload and create the dataset
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - file_format
+              - file_size_bytes
+              - name
+              - s3_key
+              properties:
+                file_format:
+                  type: string
+                  enum:
+                  - csv
+                  - json
+                  - jsonl
+                  - parquet
+                  description: Format of the uploaded file
+                file_size_bytes:
+                  type: number
+                  description: Size of the uploaded file in bytes
+                name:
+                  type: string
+                  description: Human-readable name for the dataset
+                s3_key:
+                  type: string
+                  description: S3 object key returned in the pre-signed URL response from /upload/initiate
+      responses:
+        '200':
+          description: Dataset created
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - dataset_id
+                properties:
+                  dataset_id:
+                    type: string
+                    description: ID of the newly created dataset
+        '400':
+          $ref: '#/components/responses/BadRequest'
+  /api/v1/datasets/{dataset_id}/upload/complete:
+    post:
+      operationId: completeUploadById
+      tags:
+      - Upload
+      summary: Complete an upload for an existing dataset
+      parameters:
+      - $ref: '#/components/parameters/DatasetId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - file_size_bytes
+              properties:
+                file_size_bytes:
+                  type: number
+                  description: Size of the uploaded file in bytes (for verification)
+                sha256:
+                  type: string
+                  description: SHA-256 hex digest of the uploaded file (for integrity verification)
+      responses:
+        '200':
+          description: Dataset upload completed
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - dataset_id
+                - status
+                properties:
+                  dataset_id:
+                    type: string
+                  status:
+                    type: string
+                    description: Current status of the dataset after completing upload
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  schemas:
+    ErrorEnvelope:
+      type: object
+      description: Structured error payload. `code` is a stable error code (e.g. E0100) when the failure was structured.
+      properties:
+        code:
+          type:
+          - string
+          - 'null'
+          description: Stable error code when the failure was structured (e.g. E0100)
+        level:
+          type:
+          - string
+          - 'null'
+          enum:
+          - error
+          - warning
+          - null
+          description: Severity when known
+        message:
+          type:
+          - string
+          - 'null'
+          description: Error message
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorEnvelope'
+    BadRequest:
+      description: Invalid request. Body carries a structured error with a stable code (e.g. E0100).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorEnvelope'
+    NotFound:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorEnvelope'
+  parameters:
+    DatasetId:
+      name: dataset_id
+      in: path
+      required: true
+      description: Unique dataset identifier
+      schema:
+        type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: 'Send your Adaption API key as a Bearer token: `Authorization: Bearer <ADAPTION_API_KEY>`. Keys are created in the app (Settings, API keys) and are prefixed `pt_live_`.'

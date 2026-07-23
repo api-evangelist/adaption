@@ -1,0 +1,609 @@
+openapi: 3.1.0
+info:
+  title: Adaption Adaptive Data API
+  version: 0.4.0
+  x-adaption-generated: '2026-07-17'
+  x-adaption-method: derived
+  x-adaption-source: >-
+    Derived faithfully from the official first-party Python SDK `adaption`
+    v0.4.0 (PyPI; generated with Stainless from Adaption's OpenAPI spec) —
+    api.md endpoint map + src/adaption/types/* request/response models and
+    src/adaption/_client.py (base URL + auth). Adaption does not publish the
+    source OpenAPI at a public URL; this is a faithful reconstruction of the
+    documented surface, not a fabrication.
+  description: >-
+    The Adaptive Data API lets you ingest, adapt, evaluate, and export
+    model-ready training datasets. Upload a dataset (direct file, HuggingFace,
+    or Kaggle), configure column roles and augmentation recipes, run the
+    adaptation pipeline, read the quality evaluation, download the adapted
+    dataset, and publish it back to HuggingFace or Kaggle.
+  contact:
+    name: Adaption Labs
+    email: info@adaptionlabs.ai
+    url: https://docs.adaptionlabs.ai/
+  termsOfService: https://adaptionlabs.ai/terms-of-service
+servers:
+  - url: https://api.prod.adaptionlabs.ai
+    description: Production
+security:
+  - bearerAuth: []
+tags:
+  - name: Datasets
+    description: Create, list, run, evaluate, download, and publish adaptive datasets.
+  - name: Upload
+    description: Pre-signed direct-to-S3 upload lifecycle for file-sourced datasets.
+paths:
+  /api/v1/datasets:
+    post:
+      operationId: createDataset
+      tags: [Datasets]
+      summary: Create a dataset
+      description: >-
+        Create a dataset from a file, HuggingFace, or Kaggle source. For file
+        sources the response includes pre-signed upload instructions.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DatasetCreateParams'
+      responses:
+        '200':
+          description: Dataset created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DatasetCreateResponse'
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '422': { $ref: '#/components/responses/UnprocessableEntity' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+    get:
+      operationId: listDatasets
+      tags: [Datasets]
+      summary: List datasets
+      description: >-
+        List datasets with cursor pagination, filtering, and sorting. Returns up
+        to `limit` items plus a `next_cursor` for the following page.
+      parameters:
+        - name: cursor
+          in: query
+          description: Cursor from the previous response's next_cursor field.
+          schema: { type: string }
+        - name: limit
+          in: query
+          description: Number of results (max 100, default 20). Used with cursor pagination.
+          schema: { type: number, default: 20, maximum: 100 }
+        - name: q
+          in: query
+          description: Search by dataset name (case-insensitive contains).
+          schema: { type: string }
+        - name: status
+          in: query
+          description: 'Filter by status: pending | running | succeeded | failed'
+          schema: { type: string, enum: [pending, running, succeeded, failed] }
+        - name: created_after
+          in: query
+          description: ISO 8601 datetime — datasets created after this time.
+          schema: { type: string, format: date-time }
+        - name: created_before
+          in: query
+          description: ISO 8601 datetime — datasets created before this time.
+          schema: { type: string, format: date-time }
+        - name: sort
+          in: query
+          description: 'Sort field: created_at | updated_at | name (default: created_at).'
+          schema: { type: string, enum: [created_at, updated_at, name], default: created_at }
+        - name: sort_direction
+          in: query
+          description: 'Sort direction: asc | desc (default: desc).'
+          schema: { type: string, enum: [asc, desc], default: desc }
+      responses:
+        '200':
+          description: Page of datasets
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  datasets:
+                    type: array
+                    items: { $ref: '#/components/schemas/DatasetListItem' }
+                  next_cursor:
+                    type: [string, 'null']
+                    description: Cursor for the next page; null when there are no more pages.
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+  /api/v1/datasets/{dataset_id}:
+    get:
+      operationId: getDataset
+      tags: [Datasets]
+      summary: Get a dataset
+      parameters:
+        - $ref: '#/components/parameters/DatasetId'
+      responses:
+        '200':
+          description: Dataset
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Dataset' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404': { $ref: '#/components/responses/NotFound' }
+  /api/v1/datasets/{dataset_id}/status:
+    get:
+      operationId: getDatasetStatus
+      tags: [Datasets]
+      summary: Get dataset processing status
+      parameters:
+        - $ref: '#/components/parameters/DatasetId'
+      responses:
+        '200':
+          description: Status
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/DatasetGetStatusResponse' }
+        '404': { $ref: '#/components/responses/NotFound' }
+  /api/v1/datasets/{dataset_id}/evaluation:
+    get:
+      operationId: getDatasetEvaluation
+      tags: [Datasets]
+      summary: Get dataset quality evaluation
+      parameters:
+        - $ref: '#/components/parameters/DatasetId'
+      responses:
+        '200':
+          description: Evaluation
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/DatasetGetEvaluationResponse' }
+        '404': { $ref: '#/components/responses/NotFound' }
+  /api/v1/datasets/{dataset_id}/run:
+    post:
+      operationId: runDataset
+      tags: [Datasets]
+      summary: Run the adaptation pipeline (or estimate its cost)
+      description: >-
+        Launch an augmentation run over the dataset. Set `estimate: true` to
+        validate the request and return the estimated credit cost without
+        starting a run. Pass `job_specification.idempotency_key` for safe
+        retries — a launch with an existing key returns the original response.
+      parameters:
+        - $ref: '#/components/parameters/DatasetId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/DatasetRunParams' }
+      responses:
+        '200':
+          description: Run launched or estimate returned
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/DatasetRunResponse' }
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '422': { $ref: '#/components/responses/UnprocessableEntity' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+  /api/v1/datasets/{dataset_id}/download:
+    get:
+      operationId: downloadDataset
+      tags: [Datasets]
+      summary: Download the adapted dataset
+      parameters:
+        - $ref: '#/components/parameters/DatasetId'
+        - name: fileFormat
+          in: query
+          description: Output file format. Defaults to the original upload format if omitted.
+          schema: { type: string, enum: [csv, json, jsonl, parquet] }
+      responses:
+        '200':
+          description: Dataset file contents (format per fileFormat)
+          content:
+            application/octet-stream:
+              schema: { type: string, format: binary }
+        '404': { $ref: '#/components/responses/NotFound' }
+  /api/v1/datasets/{dataset_id}/publish:
+    post:
+      operationId: publishDataset
+      tags: [Datasets]
+      summary: Publish the dataset to HuggingFace or Kaggle
+      parameters:
+        - $ref: '#/components/parameters/DatasetId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/DatasetPublishParams' }
+      responses:
+        '200':
+          description: Publish job accepted
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/DatasetPublishResponse' }
+        '404': { $ref: '#/components/responses/NotFound' }
+  /api/v1/datasets/upload/initiate:
+    post:
+      operationId: initiateUpload
+      tags: [Upload]
+      summary: Initiate a pre-signed file upload
+      description: Returns a pre-signed S3 URL to which the file is uploaded directly via HTTP PUT.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [file_format, name]
+              properties:
+                file_format:
+                  type: string
+                  enum: [csv, json, jsonl, parquet]
+                  description: Format of the file being uploaded
+                name:
+                  type: string
+                  description: Human-readable name for the dataset
+      responses:
+        '200':
+          description: Pre-signed upload URL
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [upload_url]
+                properties:
+                  upload_url:
+                    type: string
+                    description: Pre-signed S3 URL — upload the file directly to this URL via HTTP PUT
+        '401': { $ref: '#/components/responses/Unauthorized' }
+  /api/v1/datasets/upload/complete:
+    post:
+      operationId: completeUpload
+      tags: [Upload]
+      summary: Complete an upload and create the dataset
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [file_format, file_size_bytes, name, s3_key]
+              properties:
+                file_format:
+                  type: string
+                  enum: [csv, json, jsonl, parquet]
+                  description: Format of the uploaded file
+                file_size_bytes:
+                  type: number
+                  description: Size of the uploaded file in bytes
+                name:
+                  type: string
+                  description: Human-readable name for the dataset
+                s3_key:
+                  type: string
+                  description: S3 object key returned in the pre-signed URL response from /upload/initiate
+      responses:
+        '200':
+          description: Dataset created
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [dataset_id]
+                properties:
+                  dataset_id: { type: string, description: ID of the newly created dataset }
+        '400': { $ref: '#/components/responses/BadRequest' }
+  /api/v1/datasets/{dataset_id}/upload/complete:
+    post:
+      operationId: completeUploadById
+      tags: [Upload]
+      summary: Complete an upload for an existing dataset
+      parameters:
+        - $ref: '#/components/parameters/DatasetId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [file_size_bytes]
+              properties:
+                file_size_bytes:
+                  type: number
+                  description: Size of the uploaded file in bytes (for verification)
+                sha256:
+                  type: string
+                  description: SHA-256 hex digest of the uploaded file (for integrity verification)
+      responses:
+        '200':
+          description: Dataset upload completed
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [dataset_id, status]
+                properties:
+                  dataset_id: { type: string }
+                  status: { type: string, description: Current status of the dataset after completing upload }
+        '404': { $ref: '#/components/responses/NotFound' }
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: >-
+        Send your Adaption API key as a Bearer token:
+        `Authorization: Bearer <ADAPTION_API_KEY>`. Keys are created in the app
+        (Settings, API keys) and are prefixed `pt_live_`.
+  parameters:
+    DatasetId:
+      name: dataset_id
+      in: path
+      required: true
+      description: Unique dataset identifier
+      schema: { type: string }
+  responses:
+    BadRequest:
+      description: Invalid request. Body carries a structured error with a stable code (e.g. E0100).
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/ErrorEnvelope' }
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/ErrorEnvelope' }
+    NotFound:
+      description: Resource not found.
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/ErrorEnvelope' }
+    UnprocessableEntity:
+      description: Request understood but semantically invalid.
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/ErrorEnvelope' }
+    RateLimited:
+      description: Too many requests. Back off and retry.
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/ErrorEnvelope' }
+  schemas:
+    ErrorEnvelope:
+      type: object
+      description: >-
+        Structured error payload. `code` is a stable error code (e.g. E0100)
+        when the failure was structured.
+      properties:
+        code:
+          type: [string, 'null']
+          description: Stable error code when the failure was structured (e.g. E0100)
+        level:
+          type: [string, 'null']
+          enum: [error, warning, null]
+          description: Severity when known
+        message:
+          type: [string, 'null']
+          description: Error message
+    ConfiguredColumnMapping:
+      type: object
+      description: User-configured column mapping. Null if not yet configured.
+      properties:
+        chat: { type: [string, 'null'] }
+        completion: { type: [string, 'null'] }
+        context: { type: array, items: { type: string } }
+        image: { type: [string, 'null'] }
+        prompt: { type: [string, 'null'] }
+    ErrorData:
+      type: object
+      description: Error details if the dataset failed. Null otherwise.
+      properties:
+        code: { type: [string, 'null'], description: Stable error code when the failure was structured (e.g. E0100) }
+        level: { type: [string, 'null'], enum: [error, warning, null], description: Severity when known }
+        message: { type: [string, 'null'], description: Error message }
+    EvaluationSummary:
+      type: object
+      description: Compact evaluation summary. Null if evaluation has not completed.
+      properties:
+        grade_after: { type: [string, 'null'], description: Letter grade (A-E) after augmentation }
+        grade_before: { type: [string, 'null'], description: Letter grade (A-E) before augmentation }
+        improvement_percent: { type: [number, 'null'], description: Relative improvement percentage }
+        score_after: { type: [number, 'null'], description: Quality score after augmentation }
+        score_before: { type: [number, 'null'], description: Quality score before augmentation }
+    Progress:
+      type: object
+      description: Processing progress. Null when no run is active.
+      properties:
+        percent: { type: [integer, 'null'], description: Progress percentage (0-100) }
+        processed_rows: { type: [integer, 'null'], description: Number of rows processed so far }
+        total_rows: { type: [integer, 'null'], description: Total rows to process }
+    Dataset:
+      type: object
+      required: [created_at, dataset_id, status, updated_at]
+      properties:
+        configured_column_mapping: { $ref: '#/components/schemas/ConfiguredColumnMapping' }
+        created_at: { type: string, format: date-time }
+        dataset_id: { type: string, description: Unique dataset identifier }
+        error_data: { $ref: '#/components/schemas/ErrorData' }
+        evaluation_summary: { $ref: '#/components/schemas/EvaluationSummary' }
+        image_column_formats:
+          type: [object, 'null']
+          additionalProperties: { type: string, enum: [embedded_bytes, url, file_reference] }
+          description: Per-column export encoding for detected image columns (column name, format).
+        name: { type: [string, 'null'] }
+        progress: { $ref: '#/components/schemas/Progress' }
+        row_count: { type: [integer, 'null'] }
+        run_id: { type: [string, 'null'], description: ID of the currently active run }
+        status: { type: string, enum: [pending, running, succeeded, failed] }
+        updated_at: { type: string, format: date-time }
+    DatasetListItem:
+      type: object
+      required: [created_at, dataset_id, status, updated_at]
+      properties:
+        created_at: { type: string, format: date-time }
+        dataset_id: { type: string }
+        status: { type: string, enum: [pending, running, succeeded, failed] }
+        updated_at: { type: string, format: date-time }
+        description: { type: [string, 'null'], description: Auto-generated description of the dataset contents }
+        name: { type: [string, 'null'] }
+        row_count: { type: [integer, 'null'] }
+    DatasetCreateParams:
+      type: object
+      required: [source]
+      properties:
+        source:
+          description: 'Dataset source configuration. Discriminated by type: file, huggingface, or kaggle.'
+          oneOf:
+            - $ref: '#/components/schemas/FileSource'
+            - $ref: '#/components/schemas/HuggingfaceSource'
+            - $ref: '#/components/schemas/KaggleSource'
+          discriminator:
+            propertyName: type
+    FileSource:
+      type: object
+      required: [file_format, name, type]
+      properties:
+        type: { type: string, enum: [file] }
+        file_format: { type: string, enum: [csv, json, jsonl, parquet] }
+        name: { type: string, description: Human-readable name for the dataset }
+    HuggingfaceSource:
+      type: object
+      required: [files, type, url]
+      properties:
+        type: { type: string, enum: [huggingface] }
+        files: { type: array, items: { type: string }, description: File paths to download from the repository }
+        url: { type: string, description: HuggingFace dataset repository URL }
+    KaggleSource:
+      type: object
+      required: [files, type, url]
+      properties:
+        type: { type: string, enum: [kaggle] }
+        files: { type: array, items: { type: string }, description: File paths to download from the dataset }
+        url: { type: string, description: Kaggle dataset URL }
+    DatasetCreateResponse:
+      type: object
+      required: [dataset_id, status]
+      properties:
+        dataset_id: { type: string }
+        status: { type: string, description: Current dataset status }
+        upload_instructions:
+          type: [object, 'null']
+          description: Upload instructions for file sources. PUT your file to the provided URL.
+          properties:
+            method: { type: string, description: HTTP method to use }
+            s3_key: { type: string, description: S3 object key, pass back in the complete request if needed }
+            url: { type: string, description: Pre-signed URL for uploading the file }
+    DatasetGetStatusResponse:
+      type: object
+      required: [dataset_id, status]
+      properties:
+        dataset_id: { type: string }
+        error_data: { $ref: '#/components/schemas/ErrorData' }
+        progress: { $ref: '#/components/schemas/Progress' }
+        row_count: { type: [integer, 'null'] }
+        status: { type: string, enum: [pending, running, succeeded, failed] }
+    DatasetGetEvaluationResponse:
+      type: object
+      required: [dataset_id]
+      properties:
+        dataset_id: { type: string }
+        quality:
+          type: [object, 'null']
+          description: Structured quality metrics. Null until evaluation completes.
+          properties:
+            grade_after: { type: [string, 'null'] }
+            grade_before: { type: [string, 'null'] }
+            improvement_percent: { type: [number, 'null'] }
+            percentile_after: { type: [number, 'null'] }
+            score_after: { type: [number, 'null'], description: Quality score (0-10) after augmentation }
+            score_before: { type: [number, 'null'], description: Quality score (0-10) before augmentation }
+        raw_results: { type: [object, 'null'], additionalProperties: true }
+        status: { type: [string, 'null'], description: 'pending | running | succeeded | failed | skipped' }
+    DatasetRunParams:
+      type: object
+      properties:
+        brand_controls:
+          type: object
+          description: Brand and quality controls for generated completions.
+          properties:
+            blueprint: { type: string, description: Freeform brand/style system prompt for every generated completion }
+            hallucination_mitigation: { type: boolean, description: Enable web-search grounding to reduce hallucinations }
+            length: { type: string, enum: [minimal, concise, detailed, extensive], description: Target response length }
+            safety_categories: { type: array, items: { type: string }, description: Content safety categories to enforce }
+        column_mapping:
+          type: object
+          description: Column role assignments for augmentation. Required for real runs, optional for estimate-only.
+          properties:
+            chat: { type: string }
+            completion: { type: string }
+            context: { type: array, items: { type: string } }
+            image: { type: string }
+            prompt: { type: string }
+            universal_prompt: { type: string }
+        estimate:
+          type: boolean
+          description: When true, validates and returns estimated credit cost without starting a run.
+        job_specification:
+          type: object
+          description: Job execution parameters
+          properties:
+            idempotency_key:
+              type: string
+              description: >-
+                Client-generated idempotency key for safe retries. If a launch
+                with the same key already exists, the original response is returned.
+            max_rows: { type: number, description: Maximum number of rows to process in this run }
+        language_expansion:
+          type: [object, 'null']
+          description: Translation/localization expansion (three-state field).
+          properties:
+            type: { type: string, enum: [translate, localize] }
+            sample_rate: { type: number, description: Fraction (0.01-1) of input rows expanded per target }
+            languages: { type: array, items: { type: string }, description: Target ISO 639-1 codes (type=translate) }
+            pairs:
+              type: array
+              items:
+                type: object
+                required: [country, language]
+                properties:
+                  country: { type: string, description: ISO 3166-1 alpha-2 country code }
+                  language: { type: string, description: ISO 639-1 language code }
+        recipe_specification:
+          type: object
+          description: Augmentation recipe configuration. Omitted recipes use backend defaults.
+          properties:
+            recipes:
+              type: object
+              properties:
+                deduplication: { type: boolean, description: Remove near-duplicate rows }
+                prompt_rephrase: { type: boolean, description: Rephrase prompts for variety and clarity }
+                reasoning_traces: { type: boolean, description: Add reasoning traces (chain-of-thought) to completions }
+            version: { type: string, description: Recipe schema version }
+        training_type:
+          type: string
+          enum: [instruction_dataset, preference_pairs]
+          description: >-
+            How to adapt the dataset. instruction_dataset (default) produces SFT
+            pairs; preference_pairs generates chosen/rejected pairs for DPO.
+    DatasetRunResponse:
+      type: object
+      required: [estimate, estimatedCreditsConsumed, estimatedMinutes, multimodalPricingApplied]
+      properties:
+        estimate: { type: boolean, description: Whether this was an estimate-only request }
+        estimatedCreditsConsumed: { type: number, description: Estimated credits consumed by this run }
+        estimatedMinutes: { type: number, description: Estimated processing time in minutes }
+        multimodalPricingApplied: { type: boolean, description: True when an image column is mapped and in context }
+        creditMultiplier: { type: [number, 'null'], description: 10 credits per 100 output rows when multimodal }
+        run_id: { type: [string, 'null'], description: Unique run id. Null for estimate-only requests. }
+    DatasetPublishParams:
+      type: object
+      required: [target]
+      properties:
+        target: { type: string, enum: [huggingface, kaggle], description: Destination platform for publishing }
+        target_spec: { type: object, additionalProperties: true, description: Target-specific configuration }
+    DatasetPublishResponse:
+      type: object
+      required: [publish_id, status]
+      properties:
+        publish_id: { type: string, description: Unique identifier for the publish job }
+        status: { type: string, description: Status of the publish job }
+        message: { type: [string, 'null'] }

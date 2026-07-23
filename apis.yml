@@ -1,24 +1,136 @@
 aid: adaption
 name: Adaption
-description: 'Adaption is a company surfaced as a portfolio company of emergence-capital and added to
-  the API Evangelist network as a stub for enrichment. Sector: ai. This profile is a lead awaiting the
-  enrichment pipeline.'
+description: >-
+  Adaption (Adaption Labs) is a San Francisco AI research company building
+  adaptive, continuously-learning AI systems rather than relying on ever-larger
+  static models. Founded in 2026 by former Cohere leaders Sara Hooker and Sudip
+  Roy, it exited stealth with a $50M seed round led by Emergence Capital. Its
+  first product, Adaptive Data, exposes a REST API and official Python SDK to
+  ingest, adapt, evaluate, and export model-ready training datasets — folding
+  data-optimization techniques usually reserved for frontier labs into a
+  self-serve workflow for everyday teams.
 url: https://raw.githubusercontent.com/api-evangelist/adaption/refs/heads/main/apis.yml
+accessModel:
+  pricing: unknown
+  onboarding: unknown
+  trial: false
+  try_now: false
+  public: false
+  label: Unknown
+  confidence: low
+  source: []
+  generated: '2026-07-22'
+  method: derived
+image: https://adaptionlabs.ai/opengraph-image.jpg?opengraph-image.28ce77cd.jpg
 x-type: company
 x-source: vc-portfolio
 x-backed-by:
 - emergence-capital
-x-tier: stub
-x-tier-reason: portfolio-lead
+x-tier: profiled
+x-tier-reason: enriched-from-portfolio-lead
 specificationVersion: '0.20'
 created: '2026-07-17'
 modified: '2026-07-17'
 tags:
 - Company
 - Ai
-apis: []
+- Artificial Intelligence
+- Machine Learning
+- Training Data
+- Datasets
+- Data Augmentation
+- LLM
+- Model Training
+- Developer Tools
+apis:
+- aid: adaption:adaption-datasets-api
+  name: Adaption Datasets API
+  description: Create, list, run, evaluate, download, and publish adaptive datasets.
+  humanURL: https://docs.adaptionlabs.ai/
+  baseURL: https://api.prod.adaptionlabs.ai
+  tags:
+  - Datasets
+  properties:
+  - type: OpenAPI
+    url: openapi/adaption-datasets-api-openapi.yml
+  - type: Documentation
+    url: https://docs.adaptionlabs.ai/
+  - type: APIReference
+    url: https://docs.adaptionlabs.ai/api
+  - type: GettingStarted
+    url: https://docs.adaptionlabs.ai/introduction/getting-started
+- aid: adaption:adaption-upload-api
+  name: Adaption Upload API
+  description: Pre-signed direct-to-S3 upload lifecycle for file-sourced datasets.
+  humanURL: https://docs.adaptionlabs.ai/
+  baseURL: https://api.prod.adaptionlabs.ai
+  tags:
+  - Upload
+  properties:
+  - type: OpenAPI
+    url: openapi/adaption-upload-api-openapi.yml
+  - type: Documentation
+    url: https://docs.adaptionlabs.ai/
+  - type: APIReference
+    url: https://docs.adaptionlabs.ai/api
+  - type: GettingStarted
+    url: https://docs.adaptionlabs.ai/introduction/getting-started
+common:
+- type: DomainSecurity
+  url: security/adaption-domain-security.yml
+- type: DeveloperPortal
+  url: https://docs.adaptionlabs.ai/
+- type: Documentation
+  url: https://docs.adaptionlabs.ai/
+- type: APIReference
+  url: https://docs.adaptionlabs.ai/api
+- type: GettingStarted
+  url: https://docs.adaptionlabs.ai/introduction/getting-started
+- type: Blog
+  url: https://adaptionlabs.ai/blog
+- type: SignUp
+  url: https://www.adaptionlabs.ai/app/auth
+- type: Login
+  url: https://www.adaptionlabs.ai/app/auth
+- type: Support
+  url: https://discord.gg/sHhG8kwVav
+- type: TermsOfService
+  url: https://adaptionlabs.ai/terms-of-service
+- type: PrivacyPolicy
+  url: https://adaptionlabs.ai/privacy-policy
+- type: SDKs
+  url: packages/adaption-packages.yml
+- type: Packages
+  url: packages/adaption-packages.yml
+- type: Idempotency
+  url: conventions/adaption-conventions.yml
+- type: Conventions
+  url: conventions/adaption-conventions.yml
+- type: Authentication
+  url: authentication/adaption-authentication.yml
+- type: ErrorCatalog
+  url: errors/adaption-problem-types.yml
+- type: Lifecycle
+  url: lifecycle/adaption-lifecycle.yml
+- type: Conformance
+  url: conformance/adaption-conformance.yml
+- type: DataModel
+  url: data-model/adaption-data-model.yml
+- type: MCPServer
+  url: mcp/adaption-mcp.yml
+- type: LLMsTxt
+  url: llms/adaption-llms.txt
+- type: AgentSkill
+  url: skills/_index.yml
+- type: WellKnown
+  url: well-known/adaption-well-known.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
+x-enrichment:
+  date: '2026-07-19'
+  status: backfilled
+  pass: local-v1
+  note: backfilled from .gitignore signal + verified work evidence
