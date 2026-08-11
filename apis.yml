@@ -98,32 +98,6 @@ common:
   url: https://adaptionlabs.ai/terms-of-service
 - type: PrivacyPolicy
   url: https://adaptionlabs.ai/privacy-policy
-- type: SDKs
-  url: packages/adaption-packages.yml
-- type: Packages
-  url: packages/adaption-packages.yml
-- type: Idempotency
-  url: conventions/adaption-conventions.yml
-- type: Conventions
-  url: conventions/adaption-conventions.yml
-- type: Authentication
-  url: authentication/adaption-authentication.yml
-- type: ErrorCatalog
-  url: errors/adaption-problem-types.yml
-- type: Lifecycle
-  url: lifecycle/adaption-lifecycle.yml
-- type: Conformance
-  url: conformance/adaption-conformance.yml
-- type: DataModel
-  url: data-model/adaption-data-model.yml
-- type: MCPServer
-  url: mcp/adaption-mcp.yml
-- type: LLMsTxt
-  url: llms/adaption-llms.txt
-- type: AgentSkill
-  url: skills/_index.yml
-- type: WellKnown
-  url: well-known/adaption-well-known.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
