@@ -1,0 +1,1918 @@
+{
+  "item": [
+    {
+      "id": "aa1756c4-e982-40ce-944c-3180bd072678",
+      "name": "Datasets",
+      "description": {
+        "content": "Create, list, run, evaluate, download, and publish adaptive datasets.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "de19c5bb-7996-427f-9083-de469084025e",
+          "name": "Create a dataset",
+          "request": {
+            "name": "Create a dataset",
+            "description": {
+              "content": "Create a dataset from a file, HuggingFace, or Kaggle source. For file sources the response includes pre-signed upload instructions.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "datasets"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"source\": {\n    \"file_format\": \"<string>\",\n    \"name\": \"<string>\",\n    \"type\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "8ea126bf-230f-427d-9ef1-c16d21ee2599",
+              "name": "Dataset created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "datasets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"source\": {\n    \"file_format\": \"jsonl\",\n    \"name\": \"string\",\n    \"type\": \"file\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"dataset_id\": \"string\",\n  \"status\": \"string\",\n  \"upload_instructions\": {\n    \"method\": \"string\",\n    \"s3_key\": \"string\",\n    \"url\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a057aa64-a34d-4f38-b6a8-58cfa134e31e",
+              "name": "Invalid request. Body carries a structured error with a stable code (e.g. E0100).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "datasets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"source\": {\n    \"file_format\": \"jsonl\",\n    \"name\": \"string\",\n    \"type\": \"file\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"level\": \"error\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "22b80ffe-584f-4aaa-9b6f-647534ad1ce7",
+              "name": "Missing or invalid API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "datasets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"source\": {\n    \"file_format\": \"jsonl\",\n    \"name\": \"string\",\n    \"type\": \"file\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"level\": \"error\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "71b38a0f-51bc-4964-9c4c-6c3357774d20",
+              "name": "Request understood but semantically invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "datasets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"source\": {\n    \"file_format\": \"jsonl\",\n    \"name\": \"string\",\n    \"type\": \"file\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"level\": \"error\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f3fd9bed-970a-4dd6-bc8c-c5fda7236dd2",
+              "name": "Too many requests. Back off and retry.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "datasets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"source\": {\n    \"file_format\": \"jsonl\",\n    \"name\": \"string\",\n    \"type\": \"file\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"level\": \"error\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "40908190-c6ab-4224-8dd9-8050d6ddde82",
+          "name": "List datasets",
+          "request": {
+            "name": "List datasets",
+            "description": {
+              "content": "List datasets with cursor pagination, filtering, and sorting. Returns up to `limit` items plus a `next_cursor` for the following page.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "datasets"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "cursor",
+                  "value": "<string>",
+                  "description": "Cursor from the previous response's next_cursor field."
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "20",
+                  "description": "Number of results (max 100, default 20). Used with cursor pagination."
+                },
+                {
+                  "disabled": false,
+                  "key": "q",
+                  "value": "<string>",
+                  "description": "Search by dataset name (case-insensitive contains)."
+                },
+                {
+                  "disabled": false,
+                  "key": "status",
+                  "value": "<string>",
+                  "description": "Filter by status: pending | running | succeeded | failed"
+                },
+                {
+                  "disabled": false,
+                  "key": "created_after",
+                  "value": "<dateTime>",
+                  "description": "ISO 8601 datetime — datasets created after this time."
+                },
+                {
+                  "disabled": false,
+                  "key": "created_before",
+                  "value": "<dateTime>",
+                  "description": "ISO 8601 datetime — datasets created before this time."
+                },
+                {
+                  "disabled": false,
+                  "key": "sort",
+                  "value": "created_at",
+                  "description": "Sort field: created_at | updated_at | name (default: created_at)."
+                },
+                {
+                  "disabled": false,
+                  "key": "sort_direction",
+                  "value": "desc",
+                  "description": "Sort direction: asc | desc (default: desc)."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "a8adc48b-ac63-493c-a83a-c7c2b4804c0b",
+              "name": "Page of datasets",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "datasets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "cursor",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "20"
+                    },
+                    {
+                      "key": "q",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "status",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "created_after",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "created_before",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "created_at"
+                    },
+                    {
+                      "key": "sort_direction",
+                      "value": "desc"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"datasets\": [\n    {\n      \"created_at\": \"2018-05-15T15:29:10.480Z\",\n      \"dataset_id\": \"string\",\n      \"status\": \"failed\",\n      \"updated_at\": \"1979-08-18T14:05:25.963Z\",\n      \"description\": \"string\",\n      \"name\": \"string\",\n      \"row_count\": 2208\n    },\n    {\n      \"created_at\": \"1963-10-17T15:32:54.871Z\",\n      \"dataset_id\": \"string\",\n      \"status\": \"running\",\n      \"updated_at\": \"2018-03-17T08:16:30.563Z\",\n      \"description\": \"string\",\n      \"name\": \"string\",\n      \"row_count\": 4636\n    }\n  ],\n  \"next_cursor\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a64e120b-1601-46cf-bd23-161a5cc88939",
+              "name": "Missing or invalid API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "datasets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "cursor",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "20"
+                    },
+                    {
+                      "key": "q",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "status",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "created_after",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "created_before",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "created_at"
+                    },
+                    {
+                      "key": "sort_direction",
+                      "value": "desc"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"level\": \"error\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bcf59bda-b343-4712-ac46-3ca4cad35443",
+              "name": "Too many requests. Back off and retry.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "datasets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "cursor",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "20"
+                    },
+                    {
+                      "key": "q",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "status",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "created_after",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "created_before",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "created_at"
+                    },
+                    {
+                      "key": "sort_direction",
+                      "value": "desc"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"level\": \"error\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e2ab839c-17b9-4e2c-a9ee-0bcba77e43cb",
+          "name": "Get a dataset",
+          "request": {
+            "name": "Get a dataset",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "datasets",
+                ":dataset_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "dataset_id",
+                  "description": "(Required) Unique dataset identifier"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "30f28311-6878-45ae-b879-c8d1a9a77335",
+              "name": "Dataset",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "datasets",
+                    ":dataset_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "dataset_id",
+                      "description": "(Required) Unique dataset identifier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"created_at\": \"1965-05-01T07:17:56.337Z\",\n  \"dataset_id\": \"string\",\n  \"status\": \"pending\",\n  \"updated_at\": \"1948-05-27T04:06:39.274Z\",\n  \"configured_column_mapping\": {\n    \"chat\": \"string\",\n    \"completion\": \"string\",\n    \"context\": [\n      \"string\",\n      \"string\"\n    ],\n    \"image\": \"string\",\n    \"prompt\": \"string\"\n  },\n  \"error_data\": {\n    \"code\": \"string\",\n    \"level\": \"warning\",\n    \"message\": \"string\"\n  },\n  \"evaluation_summary\": {\n    \"grade_after\": \"string\",\n    \"grade_before\": \"string\",\n    \"improvement_percent\": 9546.982887451859,\n    \"score_after\": 9483.962515328807,\n    \"score_before\": 9203.552697410958\n  },\n  \"image_column_formats\": {\n    \"key_0\": \"file_reference\",\n    \"key_1\": \"file_reference\"\n  },\n  \"name\": \"string\",\n  \"progress\": {\n    \"percent\": 1490,\n    \"processed_rows\": 9704,\n    \"total_rows\": 3557\n  },\n  \"row_count\": 6049,\n  \"run_id\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e264c88a-ed6d-4f5c-b7e5-0df1f2e99af5",
+              "name": "Missing or invalid API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "datasets",
+                    ":dataset_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "dataset_id",
+                      "description": "(Required) Unique dataset identifier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"level\": \"error\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "eec72c8b-efc2-485b-a302-0f27ddba8726",
+              "name": "Resource not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "datasets",
+                    ":dataset_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "dataset_id",
+                      "description": "(Required) Unique dataset identifier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"level\": \"error\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1c49d470-97f2-44a6-b30d-72f112a7e286",
+          "name": "Get dataset processing status",
+          "request": {
+            "name": "Get dataset processing status",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "datasets",
+                ":dataset_id",
+                "status"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "dataset_id",
+                  "description": "(Required) Unique dataset identifier"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "b49c8d75-f2bf-4ea7-a6e5-9ddd8735a69c",
+              "name": "Status",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "datasets",
+                    ":dataset_id",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "dataset_id",
+                      "description": "(Required) Unique dataset identifier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"dataset_id\": \"string\",\n  \"status\": \"succeeded\",\n  \"error_data\": {\n    \"code\": \"string\",\n    \"level\": \"warning\",\n    \"message\": \"string\"\n  },\n  \"progress\": {\n    \"percent\": 9962,\n    \"processed_rows\": 7149,\n    \"total_rows\": 8724\n  },\n  \"row_count\": 2178\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6f549902-3eb7-4de9-83e8-c04ad72f2957",
+              "name": "Resource not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "datasets",
+                    ":dataset_id",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "dataset_id",
+                      "description": "(Required) Unique dataset identifier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"level\": \"error\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6f210025-d854-4fc6-b08f-6eb3470def0d",
+          "name": "Get dataset quality evaluation",
+          "request": {
+            "name": "Get dataset quality evaluation",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "datasets",
+                ":dataset_id",
+                "evaluation"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "dataset_id",
+                  "description": "(Required) Unique dataset identifier"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "40b0055f-e26b-458b-845e-98edaee8e009",
+              "name": "Evaluation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "datasets",
+                    ":dataset_id",
+                    "evaluation"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "dataset_id",
+                      "description": "(Required) Unique dataset identifier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"dataset_id\": \"string\",\n  \"quality\": {\n    \"grade_after\": \"string\",\n    \"grade_before\": \"string\",\n    \"improvement_percent\": 6965.562630346634,\n    \"percentile_after\": 7613.2003195608,\n    \"score_after\": 5673.003657961205,\n    \"score_before\": 5338.571001871724\n  },\n  \"raw_results\": {\n    \"key_0\": \"string\"\n  },\n  \"status\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "eba2e512-d211-4943-a732-aa5f5bd61c16",
+              "name": "Resource not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "datasets",
+                    ":dataset_id",
+                    "evaluation"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "dataset_id",
+                      "description": "(Required) Unique dataset identifier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"level\": \"error\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3054d5b2-a8b9-4119-891e-f2edf23d3b83",
+          "name": "Run the adaptation pipeline (or estimate its cost)",
+          "request": {
+            "name": "Run the adaptation pipeline (or estimate its cost)",
+            "description": {
+              "content": "Launch an augmentation run over the dataset. Set `estimate: true` to validate the request and return the estimated credit cost without starting a run. Pass `job_specification.idempotency_key` for safe retries — a launch with an existing key returns the original response.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "datasets",
+                ":dataset_id",
+                "run"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "dataset_id",
+                  "description": "(Required) Unique dataset identifier"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"brand_controls\": {\n    \"blueprint\": \"<string>\",\n    \"hallucination_mitigation\": \"<boolean>\",\n    \"length\": \"<string>\",\n    \"safety_categories\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"column_mapping\": {\n    \"chat\": \"<string>\",\n    \"completion\": \"<string>\",\n    \"context\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"image\": \"<string>\",\n    \"prompt\": \"<string>\",\n    \"universal_prompt\": \"<string>\"\n  },\n  \"estimate\": \"<boolean>\",\n  \"job_specification\": {\n    \"idempotency_key\": \"<string>\",\n    \"max_rows\": \"<number>\"\n  },\n  \"language_expansion\": {\n    \"type\": \"<string>\",\n    \"sample_rate\": \"<number>\",\n    \"languages\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"pairs\": [\n      {\n        \"country\": \"<string>\",\n        \"language\": \"<string>\"\n      },\n      {\n        \"country\": \"<string>\",\n        \"language\": \"<string>\"\n      }\n    ]\n  },\n  \"recipe_specification\": {\n    \"recipes\": {\n      \"deduplication\": \"<boolean>\",\n      \"prompt_rephrase\": \"<boolean>\",\n      \"reasoning_traces\": \"<boolean>\"\n    },\n    \"version\": \"<string>\"\n  },\n  \"training_type\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "1b4caf73-4a0c-44c2-b60a-a6730fe22622",
+              "name": "Run launched or estimate returned",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "datasets",
+                    ":dataset_id",
+                    "run"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "dataset_id",
+                      "description": "(Required) Unique dataset identifier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"brand_controls\": {\n    \"blueprint\": \"<string>\",\n    \"hallucination_mitigation\": \"<boolean>\",\n    \"length\": \"<string>\",\n    \"safety_categories\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"column_mapping\": {\n    \"chat\": \"<string>\",\n    \"completion\": \"<string>\",\n    \"context\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"image\": \"<string>\",\n    \"prompt\": \"<string>\",\n    \"universal_prompt\": \"<string>\"\n  },\n  \"estimate\": \"<boolean>\",\n  \"job_specification\": {\n    \"idempotency_key\": \"<string>\",\n    \"max_rows\": \"<number>\"\n  },\n  \"language_expansion\": {\n    \"type\": \"<string>\",\n    \"sample_rate\": \"<number>\",\n    \"languages\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"pairs\": [\n      {\n        \"country\": \"<string>\",\n        \"language\": \"<string>\"\n      },\n      {\n        \"country\": \"<string>\",\n        \"language\": \"<string>\"\n      }\n    ]\n  },\n  \"recipe_specification\": {\n    \"recipes\": {\n      \"deduplication\": \"<boolean>\",\n      \"prompt_rephrase\": \"<boolean>\",\n      \"reasoning_traces\": \"<boolean>\"\n    },\n    \"version\": \"<string>\"\n  },\n  \"training_type\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"estimate\": true,\n  \"estimatedCreditsConsumed\": 3514.088422272965,\n  \"estimatedMinutes\": 4053.188991009217,\n  \"multimodalPricingApplied\": false,\n  \"creditMultiplier\": 3501.878287856397,\n  \"run_id\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c23e47b4-8c02-4bbc-a2ce-b8502ace5b48",
+              "name": "Invalid request. Body carries a structured error with a stable code (e.g. E0100).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "datasets",
+                    ":dataset_id",
+                    "run"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "dataset_id",
+                      "description": "(Required) Unique dataset identifier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"brand_controls\": {\n    \"blueprint\": \"<string>\",\n    \"hallucination_mitigation\": \"<boolean>\",\n    \"length\": \"<string>\",\n    \"safety_categories\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"column_mapping\": {\n    \"chat\": \"<string>\",\n    \"completion\": \"<string>\",\n    \"context\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"image\": \"<string>\",\n    \"prompt\": \"<string>\",\n    \"universal_prompt\": \"<string>\"\n  },\n  \"estimate\": \"<boolean>\",\n  \"job_specification\": {\n    \"idempotency_key\": \"<string>\",\n    \"max_rows\": \"<number>\"\n  },\n  \"language_expansion\": {\n    \"type\": \"<string>\",\n    \"sample_rate\": \"<number>\",\n    \"languages\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"pairs\": [\n      {\n        \"country\": \"<string>\",\n        \"language\": \"<string>\"\n      },\n      {\n        \"country\": \"<string>\",\n        \"language\": \"<string>\"\n      }\n    ]\n  },\n  \"recipe_specification\": {\n    \"recipes\": {\n      \"deduplication\": \"<boolean>\",\n      \"prompt_rephrase\": \"<boolean>\",\n      \"reasoning_traces\": \"<boolean>\"\n    },\n    \"version\": \"<string>\"\n  },\n  \"training_type\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"level\": \"error\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "00ff8890-568a-4d9f-bbda-ecbe1fe4a7d6",
+              "name": "Resource not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "datasets",
+                    ":dataset_id",
+                    "run"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "dataset_id",
+                      "description": "(Required) Unique dataset identifier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"brand_controls\": {\n    \"blueprint\": \"<string>\",\n    \"hallucination_mitigation\": \"<boolean>\",\n    \"length\": \"<string>\",\n    \"safety_categories\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"column_mapping\": {\n    \"chat\": \"<string>\",\n    \"completion\": \"<string>\",\n    \"context\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"image\": \"<string>\",\n    \"prompt\": \"<string>\",\n    \"universal_prompt\": \"<string>\"\n  },\n  \"estimate\": \"<boolean>\",\n  \"job_specification\": {\n    \"idempotency_key\": \"<string>\",\n    \"max_rows\": \"<number>\"\n  },\n  \"language_expansion\": {\n    \"type\": \"<string>\",\n    \"sample_rate\": \"<number>\",\n    \"languages\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"pairs\": [\n      {\n        \"country\": \"<string>\",\n        \"language\": \"<string>\"\n      },\n      {\n        \"country\": \"<string>\",\n        \"language\": \"<string>\"\n      }\n    ]\n  },\n  \"recipe_specification\": {\n    \"recipes\": {\n      \"deduplication\": \"<boolean>\",\n      \"prompt_rephrase\": \"<boolean>\",\n      \"reasoning_traces\": \"<boolean>\"\n    },\n    \"version\": \"<string>\"\n  },\n  \"training_type\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"level\": \"error\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8a43fe88-aa6d-4b8b-90c7-170af2d21f00",
+              "name": "Request understood but semantically invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "datasets",
+                    ":dataset_id",
+                    "run"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "dataset_id",
+                      "description": "(Required) Unique dataset identifier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"brand_controls\": {\n    \"blueprint\": \"<string>\",\n    \"hallucination_mitigation\": \"<boolean>\",\n    \"length\": \"<string>\",\n    \"safety_categories\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"column_mapping\": {\n    \"chat\": \"<string>\",\n    \"completion\": \"<string>\",\n    \"context\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"image\": \"<string>\",\n    \"prompt\": \"<string>\",\n    \"universal_prompt\": \"<string>\"\n  },\n  \"estimate\": \"<boolean>\",\n  \"job_specification\": {\n    \"idempotency_key\": \"<string>\",\n    \"max_rows\": \"<number>\"\n  },\n  \"language_expansion\": {\n    \"type\": \"<string>\",\n    \"sample_rate\": \"<number>\",\n    \"languages\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"pairs\": [\n      {\n        \"country\": \"<string>\",\n        \"language\": \"<string>\"\n      },\n      {\n        \"country\": \"<string>\",\n        \"language\": \"<string>\"\n      }\n    ]\n  },\n  \"recipe_specification\": {\n    \"recipes\": {\n      \"deduplication\": \"<boolean>\",\n      \"prompt_rephrase\": \"<boolean>\",\n      \"reasoning_traces\": \"<boolean>\"\n    },\n    \"version\": \"<string>\"\n  },\n  \"training_type\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"level\": \"error\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7c7a4e68-3a31-407b-af5a-f4a98118e88e",
+              "name": "Too many requests. Back off and retry.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "datasets",
+                    ":dataset_id",
+                    "run"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "dataset_id",
+                      "description": "(Required) Unique dataset identifier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"brand_controls\": {\n    \"blueprint\": \"<string>\",\n    \"hallucination_mitigation\": \"<boolean>\",\n    \"length\": \"<string>\",\n    \"safety_categories\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"column_mapping\": {\n    \"chat\": \"<string>\",\n    \"completion\": \"<string>\",\n    \"context\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"image\": \"<string>\",\n    \"prompt\": \"<string>\",\n    \"universal_prompt\": \"<string>\"\n  },\n  \"estimate\": \"<boolean>\",\n  \"job_specification\": {\n    \"idempotency_key\": \"<string>\",\n    \"max_rows\": \"<number>\"\n  },\n  \"language_expansion\": {\n    \"type\": \"<string>\",\n    \"sample_rate\": \"<number>\",\n    \"languages\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"pairs\": [\n      {\n        \"country\": \"<string>\",\n        \"language\": \"<string>\"\n      },\n      {\n        \"country\": \"<string>\",\n        \"language\": \"<string>\"\n      }\n    ]\n  },\n  \"recipe_specification\": {\n    \"recipes\": {\n      \"deduplication\": \"<boolean>\",\n      \"prompt_rephrase\": \"<boolean>\",\n      \"reasoning_traces\": \"<boolean>\"\n    },\n    \"version\": \"<string>\"\n  },\n  \"training_type\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"level\": \"error\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f262ea06-97d7-4c04-a94e-ff3525bb9693",
+          "name": "Download the adapted dataset",
+          "request": {
+            "name": "Download the adapted dataset",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "datasets",
+                ":dataset_id",
+                "download"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "fileFormat",
+                  "value": "<string>",
+                  "description": "Output file format. Defaults to the original upload format if omitted."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "dataset_id",
+                  "description": "(Required) Unique dataset identifier"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/octet-stream"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ad17be6f-5dea-4073-ab15-6afe6b126565",
+              "name": "Dataset file contents (format per fileFormat)",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "datasets",
+                    ":dataset_id",
+                    "download"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "fileFormat",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "dataset_id",
+                      "description": "(Required) Unique dataset identifier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/octet-stream"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/octet-stream"
+                }
+              ],
+              "body": "string",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "cdc747d9-ad9f-427c-84f4-ac6c4097fed7",
+              "name": "Resource not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "datasets",
+                    ":dataset_id",
+                    "download"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "fileFormat",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "dataset_id",
+                      "description": "(Required) Unique dataset identifier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"level\": \"error\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "feb4e7ed-45d2-43cf-bc4c-a4a1bebd65d8",
+          "name": "Publish the dataset to HuggingFace or Kaggle",
+          "request": {
+            "name": "Publish the dataset to HuggingFace or Kaggle",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "datasets",
+                ":dataset_id",
+                "publish"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "dataset_id",
+                  "description": "(Required) Unique dataset identifier"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"target\": \"<string>\",\n  \"target_spec\": {\n    \"key_0\": \"string\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "a03b60de-da13-460d-a8ac-d73564e2dc74",
+              "name": "Publish job accepted",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "datasets",
+                    ":dataset_id",
+                    "publish"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "dataset_id",
+                      "description": "(Required) Unique dataset identifier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"target\": \"<string>\",\n  \"target_spec\": {\n    \"key_0\": 7580.040550039896,\n    \"key_1\": 7615,\n    \"key_2\": \"string\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"publish_id\": \"string\",\n  \"status\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "260448c2-20d6-4c91-88a8-b99bb2892c5d",
+              "name": "Resource not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "datasets",
+                    ":dataset_id",
+                    "publish"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "dataset_id",
+                      "description": "(Required) Unique dataset identifier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"target\": \"<string>\",\n  \"target_spec\": {\n    \"key_0\": 7580.040550039896,\n    \"key_1\": 7615,\n    \"key_2\": \"string\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"level\": \"error\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.prod.adaptionlabs.ai",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "b2b274f3-9a6f-4226-92fd-ed82b5bd498c",
+    "name": "Adaption Adaptive Data Datasets API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Adaptive Data API lets you ingest, adapt, evaluate, and export model-ready training datasets. Upload a dataset (direct file, HuggingFace, or Kaggle), configure column roles and augmentation recipes, run the adaptation pipeline, read the quality evaluation, download the adapted dataset, and publish it back to HuggingFace or Kaggle.\n\nContact Support:\n Name: Adaption Labs\n Email: info@adaptionlabs.ai",
+      "type": "text/plain"
+    }
+  }
+}

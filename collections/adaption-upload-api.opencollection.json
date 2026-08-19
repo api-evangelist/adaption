@@ -1,0 +1,77 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Adaption Adaptive Data Datasets Upload API",
+    "version": "0.4.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Upload",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Initiate a pre-signed file upload",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.prod.adaptionlabs.ai/api/v1/datasets/upload/initiate",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns a pre-signed S3 URL to which the file is uploaded directly via HTTP PUT."
+        },
+        {
+          "info": {
+            "name": "Complete an upload and create the dataset",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.prod.adaptionlabs.ai/api/v1/datasets/upload/complete",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Complete an upload and create the dataset"
+        },
+        {
+          "info": {
+            "name": "Complete an upload for an existing dataset",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.prod.adaptionlabs.ai/api/v1/datasets/:dataset_id/upload/complete",
+            "params": [
+              {
+                "name": "dataset_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique dataset identifier"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Complete an upload for an existing dataset"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
