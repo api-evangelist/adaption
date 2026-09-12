@@ -98,6 +98,8 @@ apis:
   - type: GettingStarted
     url: https://docs.adaptionlabs.ai/introduction/getting-started
 common:
+- type: Website
+  url: https://www.adaptionlabs.ai/
 - type: DomainSecurity
   url: security/adaption-domain-security.yml
 - type: DeveloperPortal
