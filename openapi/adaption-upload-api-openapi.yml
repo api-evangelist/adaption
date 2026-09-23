@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Adaption Adaptive Data Datasets Upload API
+  title: Adaption Adaptive Data Upload API
   version: 0.4.0
   x-adaption-generated: '2026-07-17'
   x-adaption-method: derived
@@ -155,6 +155,25 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  responses:
+    BadRequest:
+      description: Invalid request. Body carries a structured error with a stable code (e.g. E0100).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorEnvelope'
+    NotFound:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorEnvelope'
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorEnvelope'
   schemas:
     ErrorEnvelope:
       type: object
@@ -179,25 +198,6 @@ components:
           - string
           - 'null'
           description: Error message
-  responses:
-    Unauthorized:
-      description: Missing or invalid API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorEnvelope'
-    BadRequest:
-      description: Invalid request. Body carries a structured error with a stable code (e.g. E0100).
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorEnvelope'
-    NotFound:
-      description: Resource not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorEnvelope'
   parameters:
     DatasetId:
       name: dataset_id
