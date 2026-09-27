@@ -46,7 +46,7 @@ modified: '2026-07-17'
 tags:
 - Company
 - Artificial Intelligence
-- Machine-Learning
+- Machine Learning
 - Training Data
 - Datasets
 - Data Augmentation
@@ -64,6 +64,7 @@ tags_raw:
 - LLM
 - Model Training
 - Developer Tools
+- Machine-Learning
 apis:
 - aid: adaption:adaption-datasets-api
   name: Adaption Datasets API

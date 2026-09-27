@@ -269,166 +269,7 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  responses:
-    BadRequest:
-      description: Invalid request. Body carries a structured error with a stable code (e.g. E0100).
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorEnvelope'
-    UnprocessableEntity:
-      description: Request understood but semantically invalid.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorEnvelope'
-    RateLimited:
-      description: Too many requests. Back off and retry.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorEnvelope'
-    NotFound:
-      description: Resource not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorEnvelope'
-    Unauthorized:
-      description: Missing or invalid API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorEnvelope'
   schemas:
-    DatasetCreateResponse:
-      type: object
-      required:
-      - dataset_id
-      - status
-      properties:
-        dataset_id:
-          type: string
-        status:
-          type: string
-          description: Current dataset status
-        upload_instructions:
-          type:
-          - object
-          - 'null'
-          description: Upload instructions for file sources. PUT your file to the provided URL.
-          properties:
-            method:
-              type: string
-              description: HTTP method to use
-            s3_key:
-              type: string
-              description: S3 object key
-              pass back in the complete request if needed: null
-            url:
-              type: string
-              description: Pre-signed URL for uploading the file
-    FileSource:
-      type: object
-      required:
-      - file_format
-      - name
-      - type
-      properties:
-        type:
-          type: string
-          enum:
-          - file
-        file_format:
-          type: string
-          enum:
-          - csv
-          - json
-          - jsonl
-          - parquet
-        name:
-          type: string
-          description: Human-readable name for the dataset
-    DatasetPublishResponse:
-      type: object
-      required:
-      - publish_id
-      - status
-      properties:
-        publish_id:
-          type: string
-          description: Unique identifier for the publish job
-        status:
-          type: string
-          description: Status of the publish job
-        message:
-          type:
-          - string
-          - 'null'
-    DatasetPublishParams:
-      type: object
-      required:
-      - target
-      properties:
-        target:
-          type: string
-          enum:
-          - huggingface
-          - kaggle
-          description: Destination platform for publishing
-        target_spec:
-          type: object
-          additionalProperties: true
-          description: Target-specific configuration
-    DatasetGetEvaluationResponse:
-      type: object
-      required:
-      - dataset_id
-      properties:
-        dataset_id:
-          type: string
-        quality:
-          type:
-          - object
-          - 'null'
-          description: Structured quality metrics. Null until evaluation completes.
-          properties:
-            grade_after:
-              type:
-              - string
-              - 'null'
-            grade_before:
-              type:
-              - string
-              - 'null'
-            improvement_percent:
-              type:
-              - number
-              - 'null'
-            percentile_after:
-              type:
-              - number
-              - 'null'
-            score_after:
-              type:
-              - number
-              - 'null'
-              description: Quality score (0-10) after augmentation
-            score_before:
-              type:
-              - number
-              - 'null'
-              description: Quality score (0-10) before augmentation
-        raw_results:
-          type:
-          - object
-          - 'null'
-          additionalProperties: true
-        status:
-          type:
-          - string
-          - 'null'
-          description: pending | running | succeeded | failed | skipped
     Dataset:
       type: object
       required:
@@ -485,67 +326,72 @@ components:
         updated_at:
           type: string
           format: date-time
-    Progress:
-      type: object
-      description: Processing progress. Null when no run is active.
-      properties:
-        percent:
-          type:
-          - integer
-          - 'null'
-          description: Progress percentage (0-100)
-        processed_rows:
-          type:
-          - integer
-          - 'null'
-          description: Number of rows processed so far
-        total_rows:
-          type:
-          - integer
-          - 'null'
-          description: Total rows to process
-    ErrorEnvelope:
-      type: object
-      description: Structured error payload. `code` is a stable error code (e.g. E0100) when the failure was structured.
-      properties:
-        code:
-          type:
-          - string
-          - 'null'
-          description: Stable error code when the failure was structured (e.g. E0100)
-        level:
-          type:
-          - string
-          - 'null'
-          enum:
-          - error
-          - warning
-          - null
-          description: Severity when known
-        message:
-          type:
-          - string
-          - 'null'
-          description: Error message
-    KaggleSource:
+    DatasetListItem:
       type: object
       required:
-      - files
-      - type
-      - url
+      - created_at
+      - dataset_id
+      - status
+      - updated_at
       properties:
-        type:
+        created_at:
+          type: string
+          format: date-time
+        dataset_id:
+          type: string
+        status:
           type: string
           enum:
-          - kaggle
-        files:
-          type: array
-          items:
-            type: string
-          description: File paths to download from the dataset
-        url:
+          - pending
+          - running
+          - succeeded
+          - failed
+        updated_at:
           type: string
-          description: Kaggle dataset URL
+          format: date-time
+        description:
+          type:
+          - string
+          - 'null'
+          description: Auto-generated description of the dataset contents
+        name:
+          type:
+          - string
+          - 'null'
+        row_count:
+          type:
+          - integer
+          - 'null'
+    DatasetRunResponse:
+      type: object
+      required:
+      - estimate
+      - estimatedCreditsConsumed
+      - estimatedMinutes
+      - multimodalPricingApplied
+      properties:
+        estimate:
+          type: boolean
+          description: Whether this was an estimate-only request
+        estimatedCreditsConsumed:
+          type: number
+          description: Estimated credits consumed by this run
+        estimatedMinutes:
+          type: number
+          description: Estimated processing time in minutes
+        multimodalPricingApplied:
+          type: boolean
+          description: True when an image column is mapped and in context
+        creditMultiplier:
+          type:
+          - number
+          - 'null'
+          description: 10 credits per 100 output rows when multimodal
+        run_id:
+          type:
+          - string
+          - 'null'
+          description: Unique run id. Null for estimate-only requests.
     DatasetRunParams:
       type: object
       properties:
@@ -661,30 +507,55 @@ components:
           - instruction_dataset
           - preference_pairs
           description: How to adapt the dataset. instruction_dataset (default) produces SFT pairs; preference_pairs generates chosen/rejected pairs for DPO.
-    ConfiguredColumnMapping:
+    DatasetGetEvaluationResponse:
       type: object
-      description: User-configured column mapping. Null if not yet configured.
+      required:
+      - dataset_id
       properties:
-        chat:
+        dataset_id:
+          type: string
+        quality:
+          type:
+          - object
+          - 'null'
+          description: Structured quality metrics. Null until evaluation completes.
+          properties:
+            grade_after:
+              type:
+              - string
+              - 'null'
+            grade_before:
+              type:
+              - string
+              - 'null'
+            improvement_percent:
+              type:
+              - number
+              - 'null'
+            percentile_after:
+              type:
+              - number
+              - 'null'
+            score_after:
+              type:
+              - number
+              - 'null'
+              description: Quality score (0-10) after augmentation
+            score_before:
+              type:
+              - number
+              - 'null'
+              description: Quality score (0-10) before augmentation
+        raw_results:
+          type:
+          - object
+          - 'null'
+          additionalProperties: true
+        status:
           type:
           - string
           - 'null'
-        completion:
-          type:
-          - string
-          - 'null'
-        context:
-          type: array
-          items:
-            type: string
-        image:
-          type:
-          - string
-          - 'null'
-        prompt:
-          type:
-          - string
-          - 'null'
+          description: pending | running | succeeded | failed | skipped
     DatasetCreateParams:
       type: object
       required:
@@ -698,36 +569,6 @@ components:
           - $ref: '#/components/schemas/KaggleSource'
           discriminator:
             propertyName: type
-    DatasetRunResponse:
-      type: object
-      required:
-      - estimate
-      - estimatedCreditsConsumed
-      - estimatedMinutes
-      - multimodalPricingApplied
-      properties:
-        estimate:
-          type: boolean
-          description: Whether this was an estimate-only request
-        estimatedCreditsConsumed:
-          type: number
-          description: Estimated credits consumed by this run
-        estimatedMinutes:
-          type: number
-          description: Estimated processing time in minutes
-        multimodalPricingApplied:
-          type: boolean
-          description: True when an image column is mapped and in context
-        creditMultiplier:
-          type:
-          - number
-          - 'null'
-          description: 10 credits per 100 output rows when multimodal
-        run_id:
-          type:
-          - string
-          - 'null'
-          description: Unique run id. Null for estimate-only requests.
     HuggingfaceSource:
       type: object
       required:
@@ -747,42 +588,37 @@ components:
         url:
           type: string
           description: HuggingFace dataset repository URL
-    DatasetListItem:
+    DatasetPublishResponse:
       type: object
       required:
-      - created_at
-      - dataset_id
+      - publish_id
       - status
-      - updated_at
       properties:
-        created_at:
+        publish_id:
           type: string
-          format: date-time
-        dataset_id:
-          type: string
+          description: Unique identifier for the publish job
         status:
           type: string
-          enum:
-          - pending
-          - running
-          - succeeded
-          - failed
-        updated_at:
+          description: Status of the publish job
+        message:
+          type:
+          - string
+          - 'null'
+    DatasetPublishParams:
+      type: object
+      required:
+      - target
+      properties:
+        target:
           type: string
-          format: date-time
-        description:
-          type:
-          - string
-          - 'null'
-          description: Auto-generated description of the dataset contents
-        name:
-          type:
-          - string
-          - 'null'
-        row_count:
-          type:
-          - integer
-          - 'null'
+          enum:
+          - huggingface
+          - kaggle
+          description: Destination platform for publishing
+        target_spec:
+          type: object
+          additionalProperties: true
+          description: Target-specific configuration
     ErrorData:
       type: object
       description: Error details if the dataset failed. Null otherwise.
@@ -829,6 +665,99 @@ components:
           - running
           - succeeded
           - failed
+    ConfiguredColumnMapping:
+      type: object
+      description: User-configured column mapping. Null if not yet configured.
+      properties:
+        chat:
+          type:
+          - string
+          - 'null'
+        completion:
+          type:
+          - string
+          - 'null'
+        context:
+          type: array
+          items:
+            type: string
+        image:
+          type:
+          - string
+          - 'null'
+        prompt:
+          type:
+          - string
+          - 'null'
+    ErrorEnvelope:
+      type: object
+      description: Structured error payload. `code` is a stable error code (e.g. E0100) when the failure was structured.
+      properties:
+        code:
+          type:
+          - string
+          - 'null'
+          description: Stable error code when the failure was structured (e.g. E0100)
+        level:
+          type:
+          - string
+          - 'null'
+          enum:
+          - error
+          - warning
+          - null
+          description: Severity when known
+        message:
+          type:
+          - string
+          - 'null'
+          description: Error message
+    KaggleSource:
+      type: object
+      required:
+      - files
+      - type
+      - url
+      properties:
+        type:
+          type: string
+          enum:
+          - kaggle
+        files:
+          type: array
+          items:
+            type: string
+          description: File paths to download from the dataset
+        url:
+          type: string
+          description: Kaggle dataset URL
+    DatasetCreateResponse:
+      type: object
+      required:
+      - dataset_id
+      - status
+      properties:
+        dataset_id:
+          type: string
+        status:
+          type: string
+          description: Current dataset status
+        upload_instructions:
+          type:
+          - object
+          - 'null'
+          description: Upload instructions for file sources. PUT your file to the provided URL.
+          properties:
+            method:
+              type: string
+              description: HTTP method to use
+            s3_key:
+              type: string
+              description: S3 object key
+              pass back in the complete request if needed: null
+            url:
+              type: string
+              description: Pre-signed URL for uploading the file
     EvaluationSummary:
       type: object
       description: Compact evaluation summary. Null if evaluation has not completed.
@@ -858,6 +787,77 @@ components:
           - number
           - 'null'
           description: Quality score before augmentation
+    FileSource:
+      type: object
+      required:
+      - file_format
+      - name
+      - type
+      properties:
+        type:
+          type: string
+          enum:
+          - file
+        file_format:
+          type: string
+          enum:
+          - csv
+          - json
+          - jsonl
+          - parquet
+        name:
+          type: string
+          description: Human-readable name for the dataset
+    Progress:
+      type: object
+      description: Processing progress. Null when no run is active.
+      properties:
+        percent:
+          type:
+          - integer
+          - 'null'
+          description: Progress percentage (0-100)
+        processed_rows:
+          type:
+          - integer
+          - 'null'
+          description: Number of rows processed so far
+        total_rows:
+          type:
+          - integer
+          - 'null'
+          description: Total rows to process
+  responses:
+    RateLimited:
+      description: Too many requests. Back off and retry.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorEnvelope'
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorEnvelope'
+    UnprocessableEntity:
+      description: Request understood but semantically invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorEnvelope'
+    NotFound:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorEnvelope'
+    BadRequest:
+      description: Invalid request. Body carries a structured error with a stable code (e.g. E0100).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorEnvelope'
   parameters:
     DatasetId:
       name: dataset_id
