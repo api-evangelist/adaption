@@ -99,6 +99,9 @@ apis:
   - type: GettingStarted
     url: https://docs.adaptionlabs.ai/introduction/getting-started
 common:
+- type: CapabilityMap
+  url: capabilities/adaption-capability-edges.yml
+  name: Adaption Business Capability Map
 - type: Website
   url: https://www.adaptionlabs.ai/
 - type: DomainSecurity

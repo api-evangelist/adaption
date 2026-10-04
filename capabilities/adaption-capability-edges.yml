@@ -1,0 +1,27 @@
+slug: adaption
+provider: Adaption
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 1
+edges:
+- tag: Datasets
+  spec_file: adaption-datasets-api-openapi.yml
+  capability_id: BC-610.60
+  capability_id_l1: BC-610
+  capability_name: Artificial Intelligence Management
+  confidence: 0.7
+  evidence: '''The Adaptive Data API lets you ingest, adapt, evaluate, and export model-ready training
+    datasets'' and ''Run the adaptation pipeline'', ''Get dataset quality evaluation'''
+  reason: The operations manage the lifecycle of training datasets that feed model development — creation,
+    pipeline run, quality evaluation, export/publish. That is squarely AI/ML lifecycle and data tooling
+    (BC-610.60 Artificial Intelligence Management, under Information & Data Management). Some ambiguity
+    with Data Quality Management since evaluation is prominent, hence 0.7 rather than higher.
