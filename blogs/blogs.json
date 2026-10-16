@@ -2,6 +2,13 @@
   "repo": "adaption",
   "feeds": [
     {
+      "source": "https://adaptionlabs.ai/blog",
+      "feed_url": "https://adaptionlabs.ai/blog",
+      "title": "",
+      "saved": 0,
+      "method": "none"
+    },
+    {
       "source": "https://docs.adaptionlabs.ai/introduction/getting-started",
       "feed_url": "https://docs.adaptionlabs.ai/introduction/getting-started",
       "title": "",
@@ -10,5 +17,5 @@
     }
   ],
   "post_count": 0,
-  "fetched": "2026-10-03T12:30:02Z"
+  "fetched": "2026-10-10T13:15:00Z"
 }
