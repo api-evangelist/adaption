@@ -88,6 +88,12 @@ Postman and Open Collection request collections.
 - [Adaption Adaptive Data Datasets API](https://apis.io/collections/adaption/open-adaption-datasets-api/)
 - [Adaption Adaptive Data Datasets Upload API](https://apis.io/collections/adaption/open-adaption-upload-api/)
 
+#### Governance rules (1)
+
+Spectral rulesets for the provider's contracts.
+
+- [Adaption API Rules](https://apis.io/rules/adaption/adaption-rules/)
+
 #### Security (1)
 
 Authentication, trust centre, and vulnerability disclosure.
@@ -110,18 +116,18 @@ Links to the company's own pages. This repository publishes no copy of their spe
 
 ## API Evangelist rating
 
-**Kin Score 36.4** — thin · rubric 0.24.0 · scored 2026-10-17
+**Kin Score 36.6** — thin · rubric 0.28.1 · scored 2026-11-21
 
 | Facet | Score |
 |---|---|
-| Discoverability | 66.1 |
+| Discoverability | 73.2 |
 | Contract quality | 48.7 |
-| Contract governance | 0.0 |
+| Contract governance | 13.6 |
 | Operational transparency | 0.0 |
 | Developer ergonomics | 45.2 |
-| Access clarity | 34.2 |
+| Access clarity | 27.7 |
 
-**Agent readiness 21.9** — agent-aware
+**Agent readiness 29.7** — agent-ready
 
 | Agent-readiness dimension | Result |
 |---|---|
@@ -131,21 +137,27 @@ Links to the company's own pages. This repository publishes no copy of their spe
 | MCP Server | — |
 | Auth Clarity | bearer (partial credit) |
 | Idempotency | verified |
-| Error Semantics | — |
+| Error Semantics | verified |
 | OpenAPI Examples | — |
 | Rate Limit Signal | — |
 | Event Surface Described | — |
 | Agent Skills | — |
 | Well Known Catalog | — |
-| Consent Identity | — |
+| Consent Identity | signal |
 | Agent Card | — |
 | Dry Run Mode | — |
 | Delegated Identity | — |
 | Protected Resource Metadata | — |
 | Dynamic Client Registration | — |
 | Agentic Commerce | — |
+| Pagination Ratio | na |
+| Operation Distinctiveness | distinct |
+| MCP Tool Quality | na |
+| Onboarding Descriptor | — |
+| Dns Aid Index | na |
+| Markdown Negotiation | na |
 
-**Regulatory alignment 12.7** — Horizontal (data, software, accessibility, platform)
+**Regulatory alignment 7.3** — Horizontal (data, software, accessibility, platform)
 
 The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/adaption/](https://apis.io/providers/adaption/).
 
